@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './RegistrationForm.css';
+import './LoginForm.css';
 
-const RegistrationForm = () => {
+const LoginForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [passwordError, setPasswordError] = useState('');
 
@@ -37,7 +37,7 @@ const RegistrationForm = () => {
       return;
     }
 
-    fetch('/api/register', {
+    fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -46,16 +46,16 @@ const RegistrationForm = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        console.log('Authenticated successfully:', data);
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error('Authentication error:', error);
       });
   };
 
   return (
-    <div className="registration-form">
-      <h2>Регистрация</h2>
+    <div className="login-form">
+      <h2>Вход</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
@@ -65,7 +65,7 @@ const RegistrationForm = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder="example@example.com"
-            autoComplete="new-email"
+            autoComplete="email"
             required
           />
         </div>
@@ -76,17 +76,17 @@ const RegistrationForm = () => {
             id="password"
             value={formData.password}
             onChange={handleChange}
-            autoComplete="new-password"
+            autoComplete="current-password"
             pattern="(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Za-z]).{8,}"
             title="Пароль должен содержать минимум 8 символов, включая одну цифру, один специальный символ (!@#$%^&*), и использовать только латинские буквы."
             required
           />
           {passwordError && <p className="error-message">{passwordError}</p>}
         </div>
-        <button type="submit">Зарегистрироваться</button>
+        <button type="submit">Войти</button>
       </form>
     </div>
   );
 };
 
-export default RegistrationForm;
+export default LoginForm;
